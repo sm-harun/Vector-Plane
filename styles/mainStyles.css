@@ -1,0 +1,19 @@
+body {
+    margin: 0;
+    padding: 0;
+    
+    height: 100vh;
+    width: 100vw;
+    background-color: #333;
+    
+    display: flex;
+    flex-direction: column;
+}
+
+#inputs {
+    display: flex;
+}
+
+#second-vector {
+    margin-left: auto;
+}
