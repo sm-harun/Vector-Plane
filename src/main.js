@@ -1,4 +1,15 @@
 class Plane {
+    
+    // this.vectorA = {
+    //     xPos: null,
+    //     yPos: null,
+    // }
+    
+    // this.vectorB = {
+    //     xPos: null,
+    //     yPos: null,
+    // }
+    
     constructor(context, canvasWidth, canvasHeight, divisions) {
         this.context = context;
         
@@ -26,12 +37,27 @@ class Plane {
         this.context.closePath();
     }
     
-    drawVector(x, y, color) {
+    drawVector(x, y, vector) {
+        
         this.context.beginPath();
-        this.context.strokeStyle = color;
+        
+        if (vector == "A") {
+            this.context.strokeStyle = "red";
+        } else if (vector == "B") {
+            this.context.strokeStyle = "blue";
+        }
         
         this.context.moveTo(this.xOrigin, this.yOrigin);
         this.context.lineTo(this.xOrigin + x*this.divisions, this.yOrigin - y*this.divisions);
+        
+        // It saves the coords of the vector to erase them easily later.
+        // if (vector == "A") {
+        //     vectorA.xPos = this.xOrigin + x*this.divisions;
+        //     vectorA.yPos = this.yOrigin - y*this.divisions;
+        // } else if (vector == "B") {
+        //     vectorA.xPos = this.xOrigin + x*this.divisions;
+        //     vectorA.yPos = this.yOrigin - y*this.divisions;
+        // }
         
         this.context.stroke();
         this.context.closePath();
@@ -40,6 +66,9 @@ class Plane {
 
 let canvas = document.getElementById("main-canvas");
 let cxt = canvas.getContext("2d");
+
+canvas.width = window.innerWidth/2;
+canvas.height = window.innerHeight;
 
 let plane = new Plane(cxt, canvas.width, canvas.height, 20);
 
@@ -53,12 +82,18 @@ firstVectorButton.addEventListener("click", function() {
     let xCord = document.getElementById("first-vector-x").value;
     let yCord = document.getElementById("first-vector-y").value;
     
-    plane.drawVector(xCord, yCord, "red");
+    plane.drawVector(xCord, yCord, "A");
+    
+    let text = document.getElementById("first-vector-text");
+    text.textContent = xCord + "i + " + yCord + "j";
 });
 
 secondVectorButton.addEventListener("click", function() {
     let xCord = document.getElementById("second-vector-x").value;
     let yCord = document.getElementById("second-vector-y").value;
     
-    plane.drawVector(xCord, yCord, "blue");
+    plane.drawVector(xCord, yCord, "B");
+    
+    let text = document.getElementById("second-vector-text");
+    text.textContent = xCord + "i + " + yCord + "j";
 });
