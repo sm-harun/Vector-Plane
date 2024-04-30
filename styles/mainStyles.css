@@ -1,6 +1,7 @@
 body {
     margin: 0;
-    padding: 0;
+    padding: 2rem;
+    box-sizing: border-box;
     
     height: 100vh;
     width: 100vw;
@@ -10,7 +11,12 @@ body {
     flex-direction: column;
 }
 
+#main-canvas {
+    border: .4rem solid white;
+}
+
 #inputs {
+    margin-top: 5px;
     display: flex;
 }
 
