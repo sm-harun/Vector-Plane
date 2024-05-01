@@ -40,9 +40,14 @@ p {
     width: 100%;
 }
 
-#inputs input, button {
-    display: block;
+#inputs input{
     margin-top: 10px;
+    padding: 1rem;
+    
+    width: 60%;
+    height: 3rem;
+    
+    display: inline;
 }
 
 #first-vector-text {
@@ -51,4 +56,14 @@ p {
 
 #second-vector-text {
     color: green;
+}
+
+#first-vector-x:after, #second-vector-x:after {
+    content: "X";
+    color: white;
+}
+
+#first-vector-y:after, #second-vector-y:after {
+    content: "Y";
+    color: white;
 }

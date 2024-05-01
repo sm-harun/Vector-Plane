@@ -78,16 +78,12 @@ function Plane(context, canvasWidth, canvasHeight, sections) {
         this.context.closePath();
     }
     
-    this.update = function(x, y, vector) {
+    this.update = function(aXCord, aYCord, bXCord, bYCord) {
         
-        // It saves the coords of the vectors to redraw them easily later.
-        if (vector == "A") {
-            this.aX = x;
-            this.aY = y;
-        } else if (vector == "B") {
-            this.bX = x;
-            this.bY = y;
-        }
+        this.aX = aXCord;
+        this.aY = aYCord;
+        this.bX = bXCord;
+        this.bY = bYCord;
         
         this.context.clearRect(0, 0, this.maxWidth, this.maxHeight);
         
@@ -108,28 +104,24 @@ canvas.height = window.innerHeight;
 let plane = new Plane(cxt, canvas.width, canvas.height, 20);
 plane.drawPlane();
 
-let firstVectorButton = document.getElementById("first-vector-button");
-let secondVectorButton = document.getElementById("second-vector-button");
-
-firstVectorButton.addEventListener("click", function() {
+function updateUI() {
     
-    let xCord = document.getElementById("first-vector-x").value;
-    let yCord = document.getElementById("first-vector-y").value;
+    let aXCord = document.getElementById("first-vector-x").value;
+    let aYCord = document.getElementById("first-vector-y").value;
     
-    // Redraws the entire plane with the new info.
-    plane.update(xCord, yCord, "A");
-    
-    let text = document.getElementById("first-vector-text");
-    text.textContent = xCord + "i + " + yCord + "j";
-});
-
-secondVectorButton.addEventListener("click", function() {
-    let xCord = document.getElementById("second-vector-x").value;
-    let yCord = document.getElementById("second-vector-y").value;
+    let bXCord = document.getElementById("second-vector-x").value;
+    let bYCord = document.getElementById("second-vector-y").value;
     
     // Redraws the entire plane with the new info.
-    plane.update(xCord, yCord, "B");
+    plane.update(aXCord, aYCord, bXCord, bYCord);
     
-    let text = document.getElementById("second-vector-text");
-    text.textContent = xCord + "i + " + yCord + "j";
-});
+    let firstVectorText = document.getElementById("first-vector-text");
+    let secondVectorText = document.getElementById("second-vector-text");
+    
+    firstVectorText.textContent = aXCord + "i + " + aYCord + "j";
+    secondVectorText.textContent = bXCord + "i + " + bYCord + "j";
+    
+    requestAnimationFrame(updateUI);
+}
+
+updateUI();
