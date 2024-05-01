@@ -44,3 +44,11 @@ p {
     display: block;
     margin-top: 10px;
 }
+
+#first-vector-text {
+    color: red;
+}
+
+#second-vector-text {
+    color: green;
+}
