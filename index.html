@@ -13,15 +13,35 @@
     </div>
     
     <section id="inputs">
-        <div id="first-vector">
-            <p id="first-vector-text">0i + 0j</p>
-            <input type="range" min="-10" max="10" step="0.1" id="first-vector-x">
-            <input type="range" min="-10" max="10" step="0.1" id="first-vector-y">
+        
+        <section id="vector-inputs">
+            <div id="first-vector">
+                <p id="first-vector-text">0i + 0j</p>
+                <input type="range" min="-10" max="10" step="0.1" id="first-vector-x">
+                <input type="range" min="-10" max="10" step="0.1" id="first-vector-y">
+            </div>
+            <div id="second-vector">
+                <p id="second-vector-text">0i + 0j</p>
+                <input type="range" min="-10" max="10" step="0.1" id="second-vector-x">
+                <input type="range" min="-10" max="10" step="0.1" id="second-vector-y">
+            </div>
+            <div id="resultant-vector">
+                <p>No Resultant</p>
+            </div>
+        </section>
+    
+    <section id="operation-inputs">
+        <p style="text-decoration: underline;">Select Operation</p>
+        
+        <div id="operation-type">
+            <input type="radio" name="resultant-operation" value="addition">
+            <label for="addition">Addition</label><br>
         </div>
-        <div id="second-vector">
-            <p id="second-vector-text">0i + 0j</p>
-            <input type="range" min="-10" max="10" step="0.1" id="second-vector-x">
-            <input type="range" min="-10" max="10" step="0.1" id="second-vector-y">
+        <!-- <input type="radio" name="resultant-operation" value="subtraction">
+        <label for="subtraction">Subtraction</label> -->
+        <div id="shadow-check">
+            <input type="checkbox" name="show-shadow" value="shadow-check" checked>
+            <label for="shadow-check">Show Shadows</label>
         </div>
     </section>
     

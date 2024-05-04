@@ -15,6 +15,11 @@ function Plane(context, canvasWidth, canvasHeight, sections) {
     this.bX = 0;
     this.bY = 0;
     
+    this.additionResultantVector = {
+        x: this.aX + this.bX,
+        y: this.aY + this.bY
+    }
+    
     // This sets how much space one unit holds.
     this.divisions = this.maxHeight/sections;
     this.sections = sections;
@@ -85,12 +90,72 @@ function Plane(context, canvasWidth, canvasHeight, sections) {
         this.bX = bXCord;
         this.bY = bYCord;
         
+        // This saves the resulant addition vector always instead of recalculating each time.
+        this.additionResultantVector = {
+            x: parseFloat(aXCord) + parseFloat(bXCord),
+            y: parseFloat(aYCord) + parseFloat(bYCord)
+        }
+        
         this.context.clearRect(0, 0, this.maxWidth, this.maxHeight);
         
         this.drawPlane();
         
         this.drawVector(this.aX, this.aY, "A");
         this.drawVector(this.bX, this.bY, "B");
+    }
+    
+    this.additionResultant = function(showShadow) {
+        
+        let realVectorAPosition = {
+            x: this.xOrigin + this.aX*this.divisions,
+            y: this.yOrigin - this.aY*this.divisions
+        }
+        
+        let realVectorBPosition = {
+            x: this.xOrigin + this.bX*this.divisions,
+            y: this.yOrigin - this.bY*this.divisions
+        }
+        
+        // This section draws the resulant vector itself.
+        this.context.beginPath();
+        this.context.strokeStyle = "white";
+        this.context.lineWidth = 2;
+        
+        this.context.moveTo(this.xOrigin, this.yOrigin);
+        this.context.lineTo(this.xOrigin + this.additionResultantVector.x * this.divisions,
+                            this.yOrigin - this.additionResultantVector.y * this.divisions);
+        
+        this.context.stroke();
+        this.context.closePath();
+        
+        // Checks if the show shadow setting is on.
+        if (showShadow) {
+            
+            // This draws the shadow for vector B.
+            this.context.beginPath();
+            this.context.strokeStyle = ("rgba(0, 255, 0, 0.3)");
+            this.context.lineWidth = 2;
+            
+            this.context.moveTo(realVectorAPosition.x, realVectorAPosition.y);
+            this.context.lineTo(this.xOrigin + this.additionResultantVector.x * this.divisions,
+                                this.yOrigin - this.additionResultantVector.y * this.divisions);
+            
+            this.context.stroke();
+            this.context.closePath();
+            
+            // This draws the shadow for vector A.
+            this.context.beginPath();
+            this.context.strokeStyle = ("rgba(255, 0, 0, 0.3)");
+            this.context.lineWidth = 2;
+            
+            this.context.moveTo(realVectorBPosition.x, realVectorBPosition.y);
+            this.context.lineTo(this.xOrigin + this.additionResultantVector.x * this.divisions,
+                                this.yOrigin - this.additionResultantVector.y * this.divisions);
+            
+            this.context.stroke();
+            this.context.closePath();
+        }
+        
     }
 }
 
@@ -114,6 +179,24 @@ function updateUI() {
     
     // Redraws the entire plane with the new info.
     plane.update(aXCord, aYCord, bXCord, bYCord);
+    
+    if(document.querySelector('input[name=resultant-operation]:checked')) {
+        
+        switch(document.querySelector('input[name="resultant-operation"]:checked').value) {
+            
+            case "addition":
+                plane.additionResultant(document.querySelector('input[name="show-shadow"]:checked'));
+                
+                //Set the text of the resultant-vector too.
+                let arv = plane.additionResultantVector;
+                document.querySelector("#resultant-vector p").textContent = arv.x + "i + " + arv.y + "j";
+                break;
+                
+            case "subtraction":
+                
+                break;
+        }
+    }
     
     let firstVectorText = document.getElementById("first-vector-text");
     let secondVectorText = document.getElementById("second-vector-text");
