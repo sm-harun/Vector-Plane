@@ -20,6 +20,11 @@ function Plane(context, canvasWidth, canvasHeight, sections) {
         y: this.aY + this.bY
     }
     
+    this.subtractionResultantVector = {
+        x: this.aX - this.bX,
+        y: this.aY - this.bY
+    }
+    
     // This sets how much space one unit holds.
     this.divisions = this.maxHeight/sections;
     this.sections = sections;
@@ -90,10 +95,14 @@ function Plane(context, canvasWidth, canvasHeight, sections) {
         this.bX = bXCord;
         this.bY = bYCord;
         
-        // This saves the resulant addition vector always instead of recalculating each time.
+        // These always update the resultant vectors.
         this.additionResultantVector = {
             x: parseFloat(aXCord) + parseFloat(bXCord),
             y: parseFloat(aYCord) + parseFloat(bYCord)
+        }
+        this.subtractionResultantVector = {
+            x: parseFloat(aXCord) - parseFloat(bXCord),
+            y: parseFloat(aYCord) - parseFloat(bYCord)
         }
         
         this.context.clearRect(0, 0, this.maxWidth, this.maxHeight);
@@ -104,7 +113,7 @@ function Plane(context, canvasWidth, canvasHeight, sections) {
         this.drawVector(this.bX, this.bY, "B");
     }
     
-    this.additionResultant = function(showShadow) {
+    this.showAdditionResultant = function(showShadow) {
         
         let realVectorAPosition = {
             x: this.xOrigin + this.aX*this.divisions,
@@ -157,6 +166,46 @@ function Plane(context, canvasWidth, canvasHeight, sections) {
         }
         
     }
+    
+    this.showSubtractionResultant = function(showShadow) {
+        
+        let realVectorAPosition = {
+            x: this.xOrigin + this.aX*this.divisions,
+            y: this.yOrigin - this.aY*this.divisions
+        }
+        
+        let realVectorBPosition = {
+            x: this.xOrigin + this.bX*this.divisions,
+            y: this.yOrigin - this.bY*this.divisions
+        }
+        
+        // This section draws the resulant vector itself.
+        this.context.beginPath();
+        this.context.strokeStyle = "white";
+        this.context.lineWidth = 2;
+        
+        this.context.moveTo(this.xOrigin, this.yOrigin);
+        this.context.lineTo(this.xOrigin + this.subtractionResultantVector.x * this.divisions,
+                            this.yOrigin - this.subtractionResultantVector.y * this.divisions);
+        
+        this.context.stroke();
+        this.context.closePath();
+        
+        if(showShadow) {
+            
+            // This draws the shadow of the resultant.
+            this.context.beginPath();
+            this.context.strokeStyle = "rgba(255, 255, 255, 0.5)";
+            this.context.lineWidth = 2;
+            
+            this.context.moveTo(realVectorBPosition.x, realVectorBPosition.y);
+            this.context.lineTo(realVectorAPosition.x, realVectorAPosition.y);
+            
+            this.context.stroke();
+            this.context.closePath();
+        }
+        
+    }
 }
 
 let canvas = document.getElementById("main-canvas");
@@ -185,16 +234,29 @@ function updateUI() {
         switch(document.querySelector('input[name="resultant-operation"]:checked').value) {
             
             case "addition":
-                plane.additionResultant(document.querySelector('input[name="show-shadow"]:checked'));
+                plane.showAdditionResultant(document.querySelector('input[name="show-shadow"]:checked'));
                 
                 //Set the text of the resultant-vector too.
                 let arv = plane.additionResultantVector;
-                document.querySelector("#resultant-vector p").textContent = arv.x + "i + " + arv.y + "j";
+                
+                document.querySelector("#resultant-vector_p_info").textContent = "The Resultant is: "
+                document.querySelector("#resultant-vector_p").textContent = arv.x.toFixed(1) + "i + " + arv.y.toFixed(1) + "j";
                 break;
                 
             case "subtraction":
+                plane.showSubtractionResultant(document.querySelector('input[name="show-shadow"]:checked'));
                 
+                //Set the text of the resultant-vector too.
+                let srv = plane.subtractionResultantVector;
+                
+                document.querySelector("#resultant-vector_p_info").textContent = "The Resultant is: "
+                document.querySelector("#resultant-vector_p").textContent = srv.x.toFixed(1) + "i + " + srv.y.toFixed(1) + "j";
                 break;
+            
+            case "none":
+                document.querySelector("#resultant-vector_p_info").textContent = "No Resultant"
+                document.querySelector("#resultant-vector_p").textContent = "";
+
         }
     }
     

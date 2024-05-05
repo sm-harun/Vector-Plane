@@ -26,23 +26,36 @@
                 <input type="range" min="-10" max="10" step="0.1" id="second-vector-y">
             </div>
             <div id="resultant-vector">
-                <p>No Resultant</p>
+                <p id="resultant-vector_p_info">No Resultant</p>
+                <p id="resultant-vector_p"></p>
             </div>
         </section>
     
     <section id="operation-inputs">
-        <p style="text-decoration: underline;">Select Operation</p>
+        <p style="font-weight: 3;">Select Operation</p>
         
         <div id="operation-type">
-            <input type="radio" name="resultant-operation" value="addition">
-            <label for="addition">Addition</label><br>
-        </div>
-        <!-- <input type="radio" name="resultant-operation" value="subtraction">
-        <label for="subtraction">Subtraction</label> -->
-        <div id="shadow-check">
-            <input type="checkbox" name="show-shadow" value="shadow-check" checked>
-            <label for="shadow-check">Show Shadows</label>
-        </div>
+            
+            <div id="addition-operation">
+                <input type="radio" name="resultant-operation" value="addition">
+                <label for="addition">Addition</label><br>
+            </div>
+                
+            <div id="subtraction-operation">
+                <input type="radio" name="resultant-operation" value="subtraction">
+                <label for="subtraction">Subtraction</label>
+            </div>
+            
+            <div id="no-operation">
+                <input type="radio" name="resultant-operation" value="none">
+                <label for="none">None</label>
+            </div>
+            
+            <div id="shadow-check">
+                <input type="checkbox" name="show-shadow" value="shadow-check" checked>
+                <label for="shadow-check">Show Shadows</label></div>
+            </div>
+            
     </section>
     
 </body>
